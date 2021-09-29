@@ -1,8 +1,20 @@
+import styled from 'styled-components'
+import logo from '../images/logo.svg'
+
 const Header = () => {
   return (
-    <header className="header">
-      <img src="https://global-uploads.webflow.com/5e157547d6f791d34ea4e2bf/6087f2b060c7a92408bac811_logo.svg" />
-    </header>
+    <HeaderContainer>
+      <Logo src={logo} />
+    </HeaderContainer>
   )
 }
+
+const HeaderContainer = styled.div`
+  grid-area: h;
+  background-color: rgba(70, 161, 236, 0.377);
+`
+const Logo = styled.img`
+  width: 58px;
+`
+
 export default Header

@@ -1,22 +1,31 @@
+import styled from 'styled-components'
+
 const Nav = () => {
   return (
-    <nav className="nav">
-      <div>
-        <a href="">Profile</a>
-      </div>
-      <div>
-        <a href="">Messages</a>
-      </div>
-      <div>
-        <a href="">News</a>
-      </div>
-      <div>
-        <a href="">Music</a>
-      </div>
-      <div>
-        <a href="">Settings</a>
-      </div>
-    </nav>
+    <MenuContainer>
+      <MenuItem>
+        <MenuLink href="/profile">Profile</MenuLink>
+      </MenuItem>
+      <MenuItem>
+        <MenuLink href="/messages">Messages</MenuLink>
+      </MenuItem>
+      <MenuItem>
+        <MenuLink href="/news">News</MenuLink>
+      </MenuItem>
+      <MenuItem>
+        <MenuLink href="/music">Music</MenuLink>
+      </MenuItem>
+      <MenuItem>
+        <MenuLink href="/settings">Settings</MenuLink>
+      </MenuItem>
+    </MenuContainer>
   )
 }
+
+const MenuContainer = styled.nav`
+  grid-area: n;
+  background-color: rgba(116, 171, 253, 0.301);
+`
+const MenuItem = styled.div``
+const MenuLink = styled.a``
 export default Nav
