@@ -1,6 +1,14 @@
 import styled from 'styled-components'
 
 const Nav = () => {
+  const i18n = {
+    profile: 'Profile',
+    messages: 'Messages',
+    news: 'News',
+    music: 'Music',
+    settings: 'Settings',
+  }
+
   return (
     <MenuContainer>
       <MenuItem>
@@ -41,5 +49,8 @@ const MenuItem = styled.div`
 const MenuLink = styled.a`
   text-decoration: none;
   color: black;
+  :hover {
+    color: darkgray;
+  }
 `
 export default Nav
