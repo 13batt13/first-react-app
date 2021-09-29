@@ -23,9 +23,23 @@ const Nav = () => {
 }
 
 const MenuContainer = styled.nav`
-  grid-area: n;
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+  width: 15%;
+  min-width: 100px;
+  height: 100%;
   background-color: rgba(116, 171, 253, 0.301);
+  padding: 15px;
 `
-const MenuItem = styled.div``
-const MenuLink = styled.a``
+const MenuItem = styled.div`
+  margin-bottom: 15px;
+  :last-child {
+    margin-bottom: 0;
+  }
+`
+const MenuLink = styled.a`
+  text-decoration: none;
+  color: black;
+`
 export default Nav

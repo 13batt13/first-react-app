@@ -8,21 +8,22 @@ const App = () => {
   return (
     <AppWrapper>
       <Header />
-      <Nav />
-      <Profile />
+      <MainContainer>
+        <Nav />
+        <Profile />
+      </MainContainer>
     </AppWrapper>
   )
 }
 
 const AppWrapper = styled.div`
-  width: 1200px;
-  margin: 0px auto;
-  display: grid;
-  grid-template-areas:
-    'h h'
-    'n c';
-  grid-template-rows: 60px 1fr;
-  grid-template-columns: 2fr 10fr;
-  grid-gap: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 150px;
+  height: 100vh;
+`
+const MainContainer = styled.div`
+  display: flex;
+  height: 100%;
 `
 export default App

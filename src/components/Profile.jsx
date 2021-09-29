@@ -14,14 +14,18 @@ const Profile = () => {
 }
 
 const Content = styled.div`
-  grid-area: c;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `
 const Hat = styled.div`
   background: linear-gradient(to bottom, #cfe7fa 0%, #6393c1 100%);
   height: 100px;
+  width: 100%;
 `
 const Avatar = styled.img`
   height: 100px;
-  width: 100%;
+  width: 100px;
+  margin-top: 10px;
 `
 export default Profile

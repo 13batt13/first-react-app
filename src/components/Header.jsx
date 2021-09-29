@@ -10,7 +10,8 @@ const Header = () => {
 }
 
 const HeaderContainer = styled.div`
-  grid-area: h;
+  display: flex;
+  margin-bottom: 10px;
   background-color: rgba(70, 161, 236, 0.377);
 `
 const Logo = styled.img`
