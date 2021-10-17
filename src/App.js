@@ -1,25 +1,24 @@
 import styled from 'styled-components'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch } from 'react-router-dom'
 
-import Header from './components/Header'
+import Content from './sections/sectionContent'
+import Header from './sections/sectionHeader'
 import Menu from './sections/sectionNavigation'
-import Profile from './components/Profile'
-import Dialogs from './components/Dialogs'
 import { primaryGrey } from './theme/colors'
 
-const App = () => (
+const App = ({ state, addPost, changePostText, changePhoneNumber }) => (
   <Router>
     <Switch>
       <AppWrapper>
         <Menu />
         <MainContainer>
           <Header />
-          <Route path="/messages">
-            <Dialogs />
-          </Route>
-          <Route path="/profile">
-            <Profile />
-          </Route>
+          <Content
+            state={state}
+            addPost={addPost}
+            changePostText={changePostText}
+            changePhoneNumber={changePhoneNumber}
+          />
         </MainContainer>
       </AppWrapper>
     </Switch>
@@ -30,10 +29,13 @@ const AppWrapper = styled.div`
   display: flex;
   height: 100vh;
   background-color: ${primaryGrey};
+  min-width: 990px;
 `
 const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100vw;
 `
+
 export default App
