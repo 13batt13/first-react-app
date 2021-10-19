@@ -8,7 +8,7 @@ const Post = ({ message, likes }) => (
 )
 
 const Root = styled.div`
-  height: 100px;
+  min-height: 100px;
   display: flex;
   flex-direction: column;
 `

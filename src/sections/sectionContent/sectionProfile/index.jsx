@@ -50,10 +50,13 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  overflow-y: scroll;
+  height: 85vh;
 `
 const UserInfoContainer = styled.div`
   margin-top: 10px;
   display: flex;
+  height: 200px;
 `
 const UserInfo = styled.div`
   display: flex;

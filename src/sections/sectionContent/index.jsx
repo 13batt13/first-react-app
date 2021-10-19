@@ -23,6 +23,6 @@ const Content = ({ state, addPost, changePostText, changePhoneNumber }) => (
 )
 
 const Root = styled.div`
-  padding: 0 15px;
+  padding-left: 15px;
 `
 export default Content

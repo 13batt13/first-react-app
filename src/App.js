@@ -6,7 +6,7 @@ import Header from './sections/sectionHeader'
 import Menu from './sections/sectionNavigation'
 import { primaryGrey } from './theme/colors'
 
-const App = ({ state, addPost, changePostText, changePhoneNumber }) => (
+const App = ({ store }) => (
   <Router>
     <Switch>
       <AppWrapper>
@@ -14,10 +14,10 @@ const App = ({ state, addPost, changePostText, changePhoneNumber }) => (
         <MainContainer>
           <Header />
           <Content
-            state={state}
-            addPost={addPost}
-            changePostText={changePostText}
-            changePhoneNumber={changePhoneNumber}
+            state={store.getState()}
+            addPost={store.addPost.bind(store)}
+            changePostText={store.changePostText.bind(store)}
+            changePhoneNumber={store.changePhoneNumber.bind(store)}
           />
         </MainContainer>
       </AppWrapper>
