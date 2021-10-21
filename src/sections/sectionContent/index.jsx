@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom'
 import Profile from 'src/sections/sectionContent/sectionProfile'
 import Dialogs from 'src/sections/sectionContent/sectionDialogs'
 
-const Content = ({ state, addPost, changePostText, changePhoneNumber }) => (
+const Content = ({ state, dispatch, changePostText, changePhoneNumber }) => (
   <Root>
     <Route path="/messages">
       <Dialogs />
@@ -12,7 +12,7 @@ const Content = ({ state, addPost, changePostText, changePhoneNumber }) => (
     <Route path="/profile" exact>
       <Profile
         posts={state.posts}
-        addPost={addPost}
+        dispatch={dispatch}
         postText={state.postText}
         changePostText={changePostText}
         changePhoneNumber={changePhoneNumber}

@@ -15,7 +15,7 @@ const App = ({ store }) => (
           <Header />
           <Content
             state={store.getState()}
-            addPost={store.addPost.bind(store)}
+            dispatch={store.dispatch.bind(store)}
             changePostText={store.changePostText.bind(store)}
             changePhoneNumber={store.changePhoneNumber.bind(store)}
           />

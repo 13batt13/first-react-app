@@ -1,13 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { ACTIONS } from 'src/redux/actions'
 import AvatarIcon from 'src/assets/icons/AvatarIcon'
 import Post from 'src/components/Post'
 import TextInput from 'src/sections/sectionContent/sectionProfile/TextInput'
 
 const Profile = ({
   posts,
-  addPost,
+  dispatch,
   postText,
   changePostText,
   phoneNumber,
@@ -34,7 +35,7 @@ const Profile = ({
           <TextInput text={postText} changeText={changePostText} />
           <PostButton
             onClick={() => {
-              addPost()
+              dispatch({ type: ACTIONS.ADD_POST })
             }}
           >
             Add Post

@@ -1,3 +1,5 @@
+import { ACTIONS } from 'src/redux/actions'
+
 export const store = {
   _callSubscriber() {},
   _state: {
@@ -26,15 +28,6 @@ export const store = {
   getState() {
     return this._state
   },
-  addPost() {
-    const newPost = {
-      id: this._state.posts.length + 1,
-      message: this._state.postText,
-      likes: 0,
-    }
-    this._state.posts.push(newPost)
-    this._callSubscriber()
-  },
   changePostText(text) {
     this._state.postText = text
     this._callSubscriber()
@@ -47,5 +40,22 @@ export const store = {
   },
   subscribe(observer) {
     this._callSubscriber = observer
+  },
+  dispatch(action) {
+    switch (action.type) {
+      case ACTIONS.ADD_POST: {
+        const newPost = {
+          id: this._state.posts.length + 1,
+          message: this._state.postText,
+          likes: 0,
+        }
+        this._state.posts.push(newPost)
+        this._state.postText = ''
+        this._callSubscriber()
+        break
+      }
+      default:
+        return null
+    }
   },
 }
