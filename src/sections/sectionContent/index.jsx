@@ -7,14 +7,18 @@ import Dialogs from 'src/sections/sectionContent/sectionDialogs'
 const Content = ({ state, dispatch }) => (
   <Root>
     <Route path="/messages">
-      <Dialogs />
+      <Dialogs
+        messages={state.dialogsPage.messages}
+        dispatch={dispatch}
+        messageText={state.dialogsPage.messageText}
+      />
     </Route>
     <Route path="/profile" exact>
       <Profile
-        posts={state.posts}
+        posts={state.profilePage.posts}
         dispatch={dispatch}
-        postText={state.postText}
-        phoneNumber={state.phoneNumber}
+        postText={state.profilePage.postText}
+        phoneNumber={state.profilePage.phoneNumber}
       />
     </Route>
   </Root>

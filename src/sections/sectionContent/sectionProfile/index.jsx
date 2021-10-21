@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { ACTIONS } from 'src/redux/actions'
 import AvatarIcon from 'src/assets/icons/AvatarIcon'
 import Post from 'src/components/Post'
-import TextInput from 'src/sections/sectionContent/sectionProfile/TextInput'
+import TextInput from 'src/components/TextInput'
 
 const Profile = ({ posts, dispatch, postText, phoneNumber }) => {
   const postsArray = posts?.map((item) => (
@@ -21,8 +21,8 @@ const Profile = ({ posts, dispatch, postText, phoneNumber }) => {
           <UserAddress>Adress: Astrakhan, Russia</UserAddress>
           <TextInput
             text={phoneNumber}
-            changeText={dispatch}
-            type={ACTIONS.CHANGE_PHONE_NUMBER}
+            dispatch={dispatch}
+            typeOnChange={ACTIONS.CHANGE_PHONE_NUMBER}
           />
         </UserInfo>
       </UserInfoContainer>
@@ -31,8 +31,9 @@ const Profile = ({ posts, dispatch, postText, phoneNumber }) => {
         <UserNewPostContainer>
           <TextInput
             text={postText}
-            changeText={dispatch}
-            type={ACTIONS.CHANGE_POST_TEXT}
+            dispatch={dispatch}
+            typeOnEnter={ACTIONS.ADD_POST}
+            typeOnChange={ACTIONS.CHANGE_POST_TEXT}
           />
           <PostButton
             onClick={() => {
