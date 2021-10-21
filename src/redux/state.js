@@ -28,16 +28,6 @@ export const store = {
   getState() {
     return this._state
   },
-  changePostText(text) {
-    this._state.postText = text
-    this._callSubscriber()
-  },
-  changePhoneNumber(text) {
-    if (text.match(/^[0-9]*$/)) {
-      this._state.phoneNumber = text
-      this._callSubscriber()
-    }
-  },
   subscribe(observer) {
     this._callSubscriber = observer
   },
@@ -52,6 +42,18 @@ export const store = {
         this._state.posts.push(newPost)
         this._state.postText = ''
         this._callSubscriber()
+        break
+      }
+      case ACTIONS.CHANGE_POST_TEXT: {
+        this._state.postText = action.text
+        this._callSubscriber()
+        break
+      }
+      case ACTIONS.CHANGE_PHONE_NUMBER: {
+        if (action.text.match(/^[0-9]*$/)) {
+          this._state.phoneNumber = action.text
+          this._callSubscriber()
+        }
         break
       }
       default:

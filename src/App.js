@@ -16,8 +16,6 @@ const App = ({ store }) => (
           <Content
             state={store.getState()}
             dispatch={store.dispatch.bind(store)}
-            changePostText={store.changePostText.bind(store)}
-            changePhoneNumber={store.changePhoneNumber.bind(store)}
           />
         </MainContainer>
       </AppWrapper>

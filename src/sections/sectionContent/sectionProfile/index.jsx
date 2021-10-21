@@ -6,14 +6,7 @@ import AvatarIcon from 'src/assets/icons/AvatarIcon'
 import Post from 'src/components/Post'
 import TextInput from 'src/sections/sectionContent/sectionProfile/TextInput'
 
-const Profile = ({
-  posts,
-  dispatch,
-  postText,
-  changePostText,
-  phoneNumber,
-  changePhoneNumber,
-}) => {
+const Profile = ({ posts, dispatch, postText, phoneNumber }) => {
   const postsArray = posts?.map((item) => (
     <Post message={item.message} likes={item.likes} key={item.id} />
   ))
@@ -26,13 +19,21 @@ const Profile = ({
           <UserName>Name: Max</UserName>
           <UserBirth>Date of Birth: 13/08/1991</UserBirth>
           <UserAddress>Adress: Astrakhan, Russia</UserAddress>
-          <TextInput text={phoneNumber} changeText={changePhoneNumber} />
+          <TextInput
+            text={phoneNumber}
+            changeText={dispatch}
+            type={ACTIONS.CHANGE_PHONE_NUMBER}
+          />
         </UserInfo>
       </UserInfoContainer>
       <UserPostsContainer>
         My posts
         <UserNewPostContainer>
-          <TextInput text={postText} changeText={changePostText} />
+          <TextInput
+            text={postText}
+            changeText={dispatch}
+            type={ACTIONS.CHANGE_POST_TEXT}
+          />
           <PostButton
             onClick={() => {
               dispatch({ type: ACTIONS.ADD_POST })
