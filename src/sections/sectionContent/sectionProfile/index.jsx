@@ -1,12 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  addPost,
+  changePostText,
+  changePhoneNumber,
+} from 'src/features/profile/profileSlice'
 
-import { ACTIONS } from 'src/redux/actions'
 import AvatarIcon from 'src/assets/icons/AvatarIcon'
 import Post from 'src/components/Post'
 import TextInput from 'src/components/TextInput'
 
-const Profile = ({ posts, dispatch, postText, phoneNumber }) => {
+const Profile = () => {
+  const { posts, postText, phoneNumber } = useSelector(({ profile }) => ({
+    posts: profile.posts,
+    postText: profile.postText,
+    phoneNumber: profile.phoneNumber,
+  }))
+  const dispatch = useDispatch()
+
   const postsArray = posts?.map((item) => (
     <Post message={item.message} likes={item.likes} key={item.id} />
   ))
@@ -22,7 +34,7 @@ const Profile = ({ posts, dispatch, postText, phoneNumber }) => {
           <TextInput
             text={phoneNumber}
             dispatch={dispatch}
-            typeOnChange={ACTIONS.CHANGE_PHONE_NUMBER}
+            actionOnChange={changePhoneNumber}
           />
         </UserInfo>
       </UserInfoContainer>
@@ -32,12 +44,12 @@ const Profile = ({ posts, dispatch, postText, phoneNumber }) => {
           <TextInput
             text={postText}
             dispatch={dispatch}
-            typeOnEnter={ACTIONS.ADD_POST}
-            typeOnChange={ACTIONS.CHANGE_POST_TEXT}
+            actionOnEnter={addPost}
+            actionOnChange={changePostText}
           />
           <PostButton
             onClick={() => {
-              dispatch({ type: ACTIONS.ADD_POST })
+              dispatch(addPost())
             }}
           >
             Add Post

@@ -1,21 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const TextInput = ({ text, dispatch, typeOnChange, typeOnEnter }) => {
+const TextInput = ({ text, dispatch, actionOnChange, actionOnEnter }) => {
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault()
-      dispatch({ type: typeOnEnter })
+      dispatch(actionOnEnter())
     }
   }
   return (
     <StyledTextArea
       value={text}
       onChange={({ currentTarget }) => {
-        dispatch({
-          type: typeOnChange,
-          text: currentTarget.value,
-        })
+        dispatch(actionOnChange(currentTarget.value))
       }}
       onKeyPress={handleKeyPress}
     />

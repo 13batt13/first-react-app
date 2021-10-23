@@ -1,11 +1,18 @@
 import styled from 'styled-components'
+import { useSelector, useDispatch } from 'react-redux'
+import { addMessage, changeMessage } from 'src/features/dialogs/dialogsSlice'
 
-import { ACTIONS } from 'src/redux/actions'
 import TextInput from 'src/components/TextInput'
 import { secondaryGrey } from 'src/theme/colors'
 import { text1_16 } from 'src/theme/fonts'
 
-const Dialogs = ({ messages, dispatch, messageText }) => {
+const Dialogs = () => {
+  const { messages, messageText } = useSelector(({ dialogs }) => ({
+    messages: dialogs.messages,
+    messageText: dialogs.messageText,
+  }))
+  const dispatch = useDispatch()
+
   const messagesArray = messages?.map((item) => (
     <Message key={item.id}>{item.message}</Message>
   ))
@@ -20,8 +27,8 @@ const Dialogs = ({ messages, dispatch, messageText }) => {
         <TextInput
           dispatch={dispatch}
           text={messageText}
-          typeOnEnter={ACTIONS.ADD_MESSAGE}
-          typeOnChange={ACTIONS.CHANGE_MESSAGE}
+          actionOnEnter={addMessage}
+          actionOnChange={changeMessage}
         />
       </MessagesContainer>
     </Root>

@@ -6,17 +6,14 @@ import Header from './sections/sectionHeader'
 import Menu from './sections/sectionNavigation'
 import { primaryGrey } from './theme/colors'
 
-const App = ({ store }) => (
+const App = () => (
   <Router>
     <Switch>
       <AppWrapper>
         <Menu />
         <MainContainer>
           <Header />
-          <Content
-            state={store.getState()}
-            dispatch={store.dispatch.bind(store)}
-          />
+          <Content />
         </MainContainer>
       </AppWrapper>
     </Switch>
