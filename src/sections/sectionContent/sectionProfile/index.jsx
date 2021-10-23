@@ -9,7 +9,7 @@ import {
 
 import AvatarIcon from 'src/assets/icons/AvatarIcon'
 import Post from 'src/components/Post'
-import TextInput from 'src/components/TextInput'
+import TextInput from 'src/components/textInput'
 
 const Profile = () => {
   const { posts, postText, phoneNumber } = useSelector(({ profile }) => ({

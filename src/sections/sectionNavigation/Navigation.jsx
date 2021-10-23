@@ -1,16 +1,18 @@
 import styled from 'styled-components'
 
-import NavigationLink from './NavigationLink'
-import ProfileIcon from '../../assets/icons/ProfileIcon'
-import MessagesIcon from '../../assets/icons/MessagesIcon'
-import NewsIcon from '../../assets/icons/NewsIcon'
-import SettingsIcon from '../../assets/icons/SettingsIcon'
+import NavigationLink from 'src/sections/sectionNavigation/NavigationLink'
+import ProfileIcon from 'src/assets/icons/ProfileIcon'
+import MessagesIcon from 'src/assets/icons/MessagesIcon'
+import UsersIcon from 'src/assets/icons/UsersIcon'
+import NewsIcon from 'src/assets/icons/NewsIcon'
+import SettingsIcon from 'src/assets/icons/SettingsIcon'
 
 const Navigation = () => {
   const i18n = {
     profile: 'Profile',
     messages: 'Messages',
     news: 'News',
+    users: 'Users',
     settings: 'Settings',
     logout: 'Logout',
   }
@@ -24,6 +26,7 @@ const Navigation = () => {
         title={i18n.messages}
       />
       <NavigationLink Icon={NewsIcon} path="/news" title={i18n.news} />
+      <NavigationLink Icon={UsersIcon} path="/users" title={i18n.users} />
       <NavigationLink
         Icon={SettingsIcon}
         path="/settings"

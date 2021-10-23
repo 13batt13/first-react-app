@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { addMessage, changeMessage } from 'src/features/dialogs/dialogsSlice'
 
-import TextInput from 'src/components/TextInput'
+import TextInput from 'src/components/textInput'
 import { secondaryGrey } from 'src/theme/colors'
 import { text1_16 } from 'src/theme/fonts'
 
