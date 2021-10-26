@@ -1,48 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import * as axios from 'axios'
+
+export const fetchUsers = createAsyncThunk(
+  'users/fetchUsers',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        'https://social-network.samuraijs.com/api/1.0/users',
+      )
+      if (response.error) {
+        throw new Error('Something went wrong...')
+      }
+      return response.data
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  },
+)
 
 const initialState = {
-  users: [
-    {
-      name: 'Shubert',
-      id: 'jfkj<nfkj<nfkj<njnjnnjfjgjgjgjs<opopop',
-      photos: {
-        small: null,
-        large: null,
-      },
-      status: null,
-      followed: true,
-    },
-    {
-      name: 'Stephen',
-      id: 2,
-      photos: {
-        small: null,
-        large: null,
-      },
-      status: null,
-      followed: false,
-    },
-    {
-      name: 'Stephen',
-      id: 3,
-      photos: {
-        small: null,
-        large: null,
-      },
-      status: null,
-      followed: false,
-    },
-    {
-      name: 'Stephen',
-      id: 4,
-      photos: {
-        small: null,
-        large: null,
-      },
-      status: null,
-      followed: false,
-    },
-  ],
+  users: [],
+  loading: false,
+  error: null,
 }
 
 export const usersSlice = createSlice({
@@ -59,6 +38,19 @@ export const usersSlice = createSlice({
           break
         }
       }
+    },
+  },
+  extraReducers: {
+    [fetchUsers.pending]: (state, action) => {
+      state.loading = true
+    },
+    [fetchUsers.fulfilled]: (state, action) => {
+      state.loading = false
+      state.users = action.payload.items
+    },
+    [fetchUsers.rejected]: (state, action) => {
+      state.loading = false
+      state.error = action.payload
     },
   },
 })

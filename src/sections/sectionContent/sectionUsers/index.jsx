@@ -1,26 +1,23 @@
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
-import { followUser, setUsers } from 'src/features/users/usersSlice'
-import * as axios from 'axios'
+import { followUser, fetchUsers } from 'src/features/users/usersSlice'
 
 import { secondaryGrey } from 'src/theme/colors'
 import { text1_16 } from 'src/theme/fonts'
 
 const Users = () => {
-  const users = useSelector(({ users }) => users.users)
+  const { users, loading, error } = useSelector(({ users }) => users)
   const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchUsers())
+  }, [])
 
-  const handleGetUsers = () => {
-    axios
-      .get('https://social-network.samuraijs.com/api/1.0/users')
-      .then((response) => {
-        if (response.status === 200) {
-          dispatch(setUsers(response.data.items))
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+  if (loading) {
+    return <div>Loading...</div>
+  }
+  if (error) {
+    return <div>{error}</div>
   }
 
   const usersArray = users?.map((user) => (
@@ -37,7 +34,6 @@ const Users = () => {
   ))
   return (
     <Root>
-      <GetUsersBtn onClick={handleGetUsers}>Get Users</GetUsersBtn>
       <UsersList>{usersArray}</UsersList>
     </Root>
   )
@@ -62,9 +58,6 @@ const User = styled.div`
 `
 const UserName = styled.div``
 const FollowBtn = styled.button`
-  width: 100px;
-`
-const GetUsersBtn = styled.button`
   width: 100px;
 `
 
