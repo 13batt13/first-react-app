@@ -11,43 +11,40 @@ import AvatarIcon from '../../assets/icons/AvatarIcon'
 import { primaryCian, primaryLightGrey } from '../../theme/colors'
 
 const Header = () => {
-  const { email, password } = useSelector(({ auth }) => ({
+  const { email, password, loading, isAuth } = useSelector(({ auth }) => ({
     email: auth.inputEmail,
-    password: auth.password,
+    password: auth.inputPassword,
+    loading: auth.loading,
+    isAuth: !!auth.data.id,
   }))
-
+  const handleAuth = () => {
+    dispatch(isAuth ? authLogout() : authLogin({ email, password }))
+  }
   const dispatch = useDispatch()
   return (
     <Root>
-      <LoginButton
-        onClick={() => {
-          dispatch(authLogin({ email, password }))
-        }}
-      >
-        Login
-      </LoginButton>
-      <TextInput
-        type="text"
-        placeholder="Email"
-        value={email}
-        onChange={({ currentTarget }) => {
-          dispatch(setInputEmail(currentTarget.value))
-        }}
-      />
-      <TextInput
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={({ currentTarget }) => {
-          dispatch(setInputPassword(currentTarget.value))
-        }}
-      />
-      <LoginButton
-        onClick={() => {
-          dispatch(authLogout())
-        }}
-      >
-        Logout
+      {!isAuth && (
+        <>
+          <TextInput
+            type="text"
+            placeholder="Email"
+            value={email}
+            onChange={({ currentTarget }) => {
+              dispatch(setInputEmail(currentTarget.value))
+            }}
+          />
+          <TextInput
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={({ currentTarget }) => {
+              dispatch(setInputPassword(currentTarget.value))
+            }}
+          />
+        </>
+      )}
+      <LoginButton disabled={loading} onClick={handleAuth}>
+        {isAuth ? 'Logout' : 'Login'}
       </LoginButton>
       <AvatarIcon width="40" height="40" fill={primaryLightGrey} />
     </Root>

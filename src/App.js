@@ -8,11 +8,15 @@ import Content from 'src/sections/sectionContent'
 import Header from 'src/sections/sectionHeader'
 import Menu from 'src/sections/sectionNavigation'
 import ErrorAlert from 'src/components/ErrorAlert'
+import spinner from 'src/assets/Spinner.gif'
 import { primaryGrey } from 'src/theme/colors'
 
 const App = () => {
-  const isShowSharedError = useSelector(
-    ({ shared }) => shared.isShowSharedError,
+  const { isShowSharedError, isInitialized } = useSelector(
+    ({ shared, auth }) => ({
+      isShowSharedError: shared.isShowSharedError,
+      isInitialized: auth.initialized,
+    }),
   )
 
   const dispatch = useDispatch()
@@ -20,6 +24,13 @@ const App = () => {
     dispatch(authMe())
   }, [])
 
+  if (!isInitialized) {
+    return (
+      <SpinnerContainer>
+        <img src={spinner} alt="Spinner" />
+      </SpinnerContainer>
+    )
+  }
   return (
     <Router>
       <Switch>
@@ -49,5 +60,11 @@ const MainContainer = styled.div`
   height: 100%;
   width: 100vw;
 `
-
+const SpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+`
 export default App

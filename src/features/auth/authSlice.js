@@ -1,14 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as axios from 'axios'
 import { showSharedError, setSharedError } from 'src/features/sharedSlice'
+import { authApi } from 'src/api/api'
 
 export const authMe = createAsyncThunk(
   'auth/authMe',
   async (_, { dispatch }) => {
     try {
-      const response = await axios.get(
-        'https://social-network.samuraijs.com/api/1.0/auth/me',
-      )
+      const response = await authApi.authMe()
       if (response.data.resultCode === 1) {
         dispatch(setSharedError(response.data.messages[0]))
         dispatch(showSharedError())
@@ -25,10 +24,7 @@ export const authLogin = createAsyncThunk(
   'auth/authLogin',
   async ({ email, password }, { dispatch }) => {
     try {
-      const response = await axios.post(
-        'https://social-network.samuraijs.com/api/1.0/auth/login',
-        { email, password, rememberMe: true },
-      )
+      const response = await authApi.login(email, password)
       if (response.data.resultCode === 1) {
         dispatch(setSharedError(response.data.messages[0]))
         dispatch(showSharedError())
@@ -45,9 +41,7 @@ export const authLogout = createAsyncThunk(
   'auth/authLogout',
   async (_, { dispatch }) => {
     try {
-      const response = await axios.delete(
-        'https://social-network.samuraijs.com/api/1.0/auth/login',
-      )
+      const response = await authApi.logout()
       if (response.data.resultCode === 1) {
         dispatch(setSharedError(response.data.messages[0]))
         dispatch(showSharedError())
@@ -69,6 +63,7 @@ const initialState = {
     email: '',
     login: '',
   },
+  initialized: false,
   loading: false,
   inputEmail: '',
   inputPassword: '',
@@ -97,6 +92,7 @@ export const authSlice = createSlice({
       if (action.payload.resultCode === 0) {
         state.data = action.payload.data
       }
+      state.initialized = true
     },
     [authLogin.pending]: (state) => {
       state.loading = true
