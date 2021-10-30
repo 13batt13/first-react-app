@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
 
 import NavigationLink from 'src/sections/sectionNavigation/NavigationLink'
 import ProfileIcon from 'src/assets/icons/ProfileIcon'
@@ -16,10 +17,16 @@ const Navigation = () => {
     settings: 'Settings',
     logout: 'Logout',
   }
-
+  const isAuth = useSelector(({ auth }) => Boolean(auth.data.id))
   return (
     <Root>
-      <NavigationLink Icon={ProfileIcon} path="/profile" title={i18n.profile} />
+      {isAuth && (
+        <NavigationLink
+          Icon={ProfileIcon}
+          path="/profile"
+          title={i18n.profile}
+        />
+      )}
       <NavigationLink
         Icon={MessagesIcon}
         path="/messages"

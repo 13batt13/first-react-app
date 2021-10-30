@@ -1,24 +1,40 @@
 import styled from 'styled-components'
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { BrowserRouter as Router, Switch } from 'react-router-dom'
+import { authMe } from 'src/features/auth/authSlice'
 
-import Content from './sections/sectionContent'
-import Header from './sections/sectionHeader'
-import Menu from './sections/sectionNavigation'
-import { primaryGrey } from './theme/colors'
+import Content from 'src/sections/sectionContent'
+import Header from 'src/sections/sectionHeader'
+import Menu from 'src/sections/sectionNavigation'
+import ErrorAlert from 'src/components/ErrorAlert'
+import { primaryGrey } from 'src/theme/colors'
 
-const App = () => (
-  <Router>
-    <Switch>
-      <AppWrapper>
-        <Menu />
-        <MainContainer>
-          <Header />
-          <Content />
-        </MainContainer>
-      </AppWrapper>
-    </Switch>
-  </Router>
-)
+const App = () => {
+  const isShowSharedError = useSelector(
+    ({ shared }) => shared.isShowSharedError,
+  )
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(authMe())
+  }, [])
+
+  return (
+    <Router>
+      <Switch>
+        <AppWrapper>
+          {isShowSharedError && <ErrorAlert />}
+          <Menu />
+          <MainContainer>
+            <Header />
+            <Content />
+          </MainContainer>
+        </AppWrapper>
+      </Switch>
+    </Router>
+  )
+}
 
 const AppWrapper = styled.div`
   display: flex;
