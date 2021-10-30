@@ -45,6 +45,7 @@ const AppWrapper = styled.div`
 const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
+  padding-top: 24px;
   height: 100%;
   width: 100vw;
 `
