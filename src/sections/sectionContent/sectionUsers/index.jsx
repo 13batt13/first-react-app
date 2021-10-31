@@ -1,50 +1,58 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { followUser, fetchUsers } from 'src/features/users/usersSlice'
 import { NavLink } from 'react-router-dom'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 import UserAva from 'src/components/UserAva'
 import { secondaryGrey } from 'src/theme/colors'
 import { text1_16 } from 'src/theme/fonts'
 
 const Users = () => {
-  const { users, loading, error } = useSelector(({ users }) => users)
+  const users = useSelector(({ users }) => users.users)
   const dispatch = useDispatch()
+  const [page, setPage] = useState(1)
+
   useEffect(() => {
-    dispatch(fetchUsers())
-  }, [])
+    dispatch(fetchUsers({ count: 20, page }))
+  }, [dispatch, page])
 
-  if (loading) {
-    return <div>Loading...</div>
-  }
-  if (error) {
-    return <div>{error}</div>
+  const fetchMoreUsers = () => {
+    setPage(page + 1)
   }
 
-  const usersArray = users?.map((user) => {
-    console.log('photos: ', user.photos)
-    return (
-      <User key={user.id}>
-        <NavLink to={`/user/${user.id}`}>
-          <UserAva avaUrl={user.photos?.small} />
-        </NavLink>
-        <Info>
-          <UserName>{user.name}</UserName>
-          <FollowBtn
-            onClick={() => {
-              dispatch(followUser(user.id))
-            }}
-          >
-            {user.followed ? 'Unfollow' : 'Follow'}
-          </FollowBtn>
-        </Info>
-      </User>
-    )
-  })
+  const usersArray = users?.map((user) => (
+    <User key={user.id}>
+      <NavLink to={`/user/${user.id}`}>
+        <UserAva avaUrl={user.photos?.small} />
+      </NavLink>
+      <Info>
+        <UserName>{user.name}</UserName>
+        <FollowBtn
+          onClick={() => {
+            dispatch(followUser(user.id))
+          }}
+        >
+          {user.followed ? 'Unfollow' : 'Follow'}
+        </FollowBtn>
+      </Info>
+    </User>
+  ))
   return (
     <Root>
-      <UsersList>{usersArray}</UsersList>
+      <UsersList id="scrollContent">
+        <InfiniteScroll
+          dataLength={usersArray.length}
+          next={fetchMoreUsers}
+          hasMore={true}
+          loader={<h4>Loading...</h4>}
+          scrollableTarget="scrollContent"
+          scrollThreshold={0.9}
+        >
+          {usersArray}
+        </InfiniteScroll>
+      </UsersList>
     </Root>
   )
 }

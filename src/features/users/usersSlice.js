@@ -1,15 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import * as axios from 'axios'
+import { usersApi } from 'src/api/api'
 import { showSharedError, setSharedError } from 'src/features/sharedSlice'
 
 export const fetchUsers = createAsyncThunk(
   'users/fetchUsers',
-  async (_, { dispatch }) => {
+  async ({ count, page }, { dispatch }) => {
     try {
       dispatch(setLoading(true))
-      const response = await axios.get(
-        'https://social-network.samuraijs.com/api/1.0/users',
-      )
+      const response = await usersApi.getUsers(count, page)
       dispatch(setLoading(false))
       dispatch(setUsers(response.data.items))
     } catch (error) {
@@ -31,7 +29,7 @@ export const usersSlice = createSlice({
   initialState,
   reducers: {
     setUsers: (state, action) => {
-      state.users = action.payload
+      state.users.push(...action.payload)
     },
     setLoading: (state, action) => {
       state.loading = action.payload

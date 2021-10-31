@@ -2,8 +2,6 @@ import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import { closeSharedError } from 'src/features/sharedSlice'
 
-import { primaryGrey } from 'src/theme/colors'
-
 const ErrorAlert = () => {
   const errorText = useSelector(({ shared }) => shared.sharedError)
   const dispatch = useDispatch()

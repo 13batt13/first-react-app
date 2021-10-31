@@ -27,3 +27,11 @@ export const profileApi = {
     return instance.get(`profile/${id}`).then((response) => response)
   },
 }
+
+export const usersApi = {
+  getUsers(count, page) {
+    return instance
+      .get(`users?page=${page}&count=${count}`)
+      .then((response) => response)
+  },
+}

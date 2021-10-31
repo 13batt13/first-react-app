@@ -1,7 +1,8 @@
 const openSansBold = 'OpenSans-Bold'
-const openSansMedium = 'OpenSans-Medium'
 const openSansRegular = 'OpenSans-Regular'
-const openSansSemiBold = 'OpenSans-SemiBold'
+// Will be needed later
+// const openSansMedium = 'OpenSans-Medium'
+// const openSansSemiBold = 'OpenSans-SemiBold'
 
 export const text1_16 = {
   fontFamily: openSansRegular,

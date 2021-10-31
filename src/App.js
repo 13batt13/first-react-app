@@ -22,7 +22,7 @@ const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(authMe())
-  }, [])
+  }, [dispatch])
 
   if (!isInitialized) {
     return (

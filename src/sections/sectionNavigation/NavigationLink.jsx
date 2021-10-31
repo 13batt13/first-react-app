@@ -16,14 +16,16 @@ const NavigationLink = ({ Icon, title, path }) => {
   const iconFill = isActive ? primaryCian : secondaryGrey
 
   return (
-    <MenuItem isActiveLink={isActive} to={path}>
-      <Icon fill={iconFill} />
-      <MenuLink isActiveLink={isActive}>{title}</MenuLink>
-    </MenuItem>
+    <StyledNavLink to={path}>
+      <MenuItem isActiveLink={isActive}>
+        <Icon fill={iconFill} />
+        <MenuLink isActiveLink={isActive}>{title}</MenuLink>
+      </MenuItem>
+    </StyledNavLink>
   )
 }
 
-const MenuItem = styled(NavLink)`
+const MenuItem = styled.div`
   display: flex;
   align-items: center;
   height: 56px;
@@ -35,6 +37,9 @@ const MenuItem = styled(NavLink)`
   }
   ${({ isActiveLink }) =>
     isActiveLink && `background-color: ${primaryLightCian};`}
+`
+const StyledNavLink = styled(NavLink)`
+  text-decoration: none;
 `
 const MenuLink = styled.div`
   margin-left: 20px;
