@@ -15,6 +15,9 @@ const Content = () => {
           <Profile />
         </Route>
       )}
+      <Route path="/user/:userId" exact>
+        <Profile />
+      </Route>
       <Route path="/messages">
         <Dialogs />
       </Route>

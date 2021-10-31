@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   addPost,
@@ -11,23 +12,29 @@ import {
 import AvatarIcon from 'src/assets/icons/AvatarIcon'
 import Post from 'src/components/Post'
 import TextInput from 'src/components/textInput'
-import { authLogin } from 'src/features/auth/authSlice'
 
 const Profile = () => {
-  const { posts, postText, phoneNumber, profileData, authUserID } = useSelector(
-    ({ profile, auth }) => ({
+  const { userId } = useParams()
+
+  const { posts, postText, phoneNumber, profileData, loading, authUserID } =
+    useSelector(({ profile, auth }) => ({
       posts: profile.posts,
       postText: profile.postText,
       phoneNumber: profile.phoneNumber,
       profileData: profile.profileData,
+      loading: profile.loading,
       authUserID: auth.data.id,
-    }),
-  )
+    }))
+
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getProfile(authUserID))
-  }, [])
+    dispatch(getProfile(userId ? userId : authUserID))
+  }, [dispatch, userId, authUserID])
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
 
   const postsArray = posts?.map((item) => (
     <Post message={item.message} likes={item.likes} key={item.id} />
@@ -38,7 +45,7 @@ const Profile = () => {
       <UserInfoContainer>
         <AvatarIcon />
         <UserInfo>
-          <UserName>{profileData.fullName}</UserName>
+          <UserName>{profileData?.fullName}</UserName>
           <UserBirth>Date of Birth: 13/08/1991</UserBirth>
           <UserAddress>Adress: Astrakhan, Russia</UserAddress>
           <TextInput
