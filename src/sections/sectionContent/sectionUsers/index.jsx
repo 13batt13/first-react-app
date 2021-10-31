@@ -10,6 +10,10 @@ import { secondaryGrey } from 'src/theme/colors'
 import { text1_16 } from 'src/theme/fonts'
 
 const Users = () => {
+  const i18n = {
+    follow: 'Follow',
+    unfollow: 'Unfollow',
+  }
   const users = useSelector(({ users }) => users.users)
   const dispatch = useDispatch()
   const [page, setPage] = useState(1)
@@ -34,7 +38,7 @@ const Users = () => {
             dispatch(followUser(user.id))
           }}
         >
-          {user.followed ? 'Unfollow' : 'Follow'}
+          {user.followed ? i18n.unfollow : i18n.follow}
         </FollowBtn>
       </Info>
     </User>
