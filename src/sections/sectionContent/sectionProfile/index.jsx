@@ -1,23 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   addPost,
   changePostText,
   changePhoneNumber,
+  getProfile,
 } from 'src/features/profile/profileSlice'
 
 import AvatarIcon from 'src/assets/icons/AvatarIcon'
 import Post from 'src/components/Post'
 import TextInput from 'src/components/textInput'
+import { authLogin } from 'src/features/auth/authSlice'
 
 const Profile = () => {
-  const { posts, postText, phoneNumber } = useSelector(({ profile }) => ({
-    posts: profile.posts,
-    postText: profile.postText,
-    phoneNumber: profile.phoneNumber,
-  }))
+  const { posts, postText, phoneNumber, profileData, authUserID } = useSelector(
+    ({ profile, auth }) => ({
+      posts: profile.posts,
+      postText: profile.postText,
+      phoneNumber: profile.phoneNumber,
+      profileData: profile.profileData,
+      authUserID: auth.data.id,
+    }),
+  )
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getProfile(authUserID))
+  }, [])
 
   const postsArray = posts?.map((item) => (
     <Post message={item.message} likes={item.likes} key={item.id} />
@@ -28,7 +38,7 @@ const Profile = () => {
       <UserInfoContainer>
         <AvatarIcon />
         <UserInfo>
-          <UserName>Name: Max</UserName>
+          <UserName>{profileData.fullName}</UserName>
           <UserBirth>Date of Birth: 13/08/1991</UserBirth>
           <UserAddress>Adress: Astrakhan, Russia</UserAddress>
           <TextInput

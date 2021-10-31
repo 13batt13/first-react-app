@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import * as axios from 'axios'
 import { showSharedError, setSharedError } from 'src/features/sharedSlice'
 import { authApi } from 'src/api/api'
 

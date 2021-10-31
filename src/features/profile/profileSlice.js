@@ -1,15 +1,50 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { profileApi } from 'src/api/api'
+import { setSharedError, showSharedError } from 'src/features/sharedSlice'
+
+export const getProfile = createAsyncThunk(
+  'profile/getProfile',
+  async (id, { dispatch }) => {
+    try {
+      const response = await profileApi.getProfile(id)
+      if (response.data?.resultCode === 1) {
+        dispatch(setSharedError(response.data.messages[0]))
+        dispatch(showSharedError())
+      }
+      return response.data
+    } catch (error) {
+      dispatch(setLoading(false))
+      dispatch(setSharedError(error.message))
+      dispatch(showSharedError())
+    }
+  },
+)
 
 const initialState = {
-  posts: [
-    { id: 1, message: 'Post1', likes: 10 },
-    { id: 2, message: 'Post2', likes: 1055 },
-    { id: 3, message: 'Post3', likes: 3 },
-    { id: 4, message: 'Post4', likes: 44 },
-    { id: 5, message: 'Post5', likes: 14 },
-  ],
+  posts: [],
   postText: '',
   phoneNumber: '',
+  profileData: {
+    userId: null,
+    lookingForAJob: false,
+    lookingForAJobDescription: '',
+    fullName: '',
+    contacts: {
+      github: '',
+      vk: '',
+      facebook: '',
+      instagram: '',
+      twitter: '',
+      website: '',
+      youtube: '',
+      mainLink: '',
+    },
+    photos: {
+      small: null,
+      large: null,
+    },
+  },
+  loading: false,
 }
 
 export const profileSlice = createSlice({
@@ -35,10 +70,22 @@ export const profileSlice = createSlice({
         state.phoneNumber = action.payload
       }
     },
+    setLoading: (state, action) => {
+      state.loading = action.payload
+    },
+  },
+  extraReducers: {
+    [getProfile.pending]: (state) => {
+      state.loading = true
+    },
+    [getProfile.fulfilled]: (state, action) => {
+      state.loading = false
+      state.profileData = action.payload
+    },
   },
 })
 
-export const { addPost, changePostText, changePhoneNumber } =
+export const { addPost, changePostText, changePhoneNumber, setLoading } =
   profileSlice.actions
 
 export default profileSlice.reducer

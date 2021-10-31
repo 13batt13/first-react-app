@@ -21,3 +21,9 @@ export const authApi = {
     return instance.delete('auth/login').then((response) => response)
   },
 }
+
+export const profileApi = {
+  getProfile(id) {
+    return instance.get(`profile/${id}`).then((response) => response)
+  },
+}
