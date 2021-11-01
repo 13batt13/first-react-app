@@ -1,48 +1,21 @@
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  authLogin,
-  authLogout,
-  setInputEmail,
-  setInputPassword,
-} from 'src/features/auth/authSlice'
+import { setIsShowLoginModal, authLogout } from 'src/features/auth/authSlice'
 import styled from 'styled-components'
 
 import AvatarIcon from '../../assets/icons/AvatarIcon'
 import { primaryCian, primaryLightGrey } from '../../theme/colors'
 
 const Header = () => {
-  const { email, password, loading, isAuth } = useSelector(({ auth }) => ({
-    email: auth.inputEmail,
-    password: auth.inputPassword,
+  const { loading, isAuth } = useSelector(({ auth }) => ({
     loading: auth.loading,
     isAuth: !!auth.data.id,
   }))
   const handleAuth = () => {
-    dispatch(isAuth ? authLogout() : authLogin({ email, password }))
+    dispatch(isAuth ? authLogout() : setIsShowLoginModal(true))
   }
   const dispatch = useDispatch()
   return (
     <Root>
-      {!isAuth && (
-        <>
-          <TextInput
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={({ currentTarget }) => {
-              dispatch(setInputEmail(currentTarget.value))
-            }}
-          />
-          <TextInput
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={({ currentTarget }) => {
-              dispatch(setInputPassword(currentTarget.value))
-            }}
-          />
-        </>
-      )}
       <LoginButton disabled={loading} onClick={handleAuth}>
         {isAuth ? 'Logout' : 'Login'}
       </LoginButton>

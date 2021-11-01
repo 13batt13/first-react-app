@@ -7,10 +7,6 @@ export const authMe = createAsyncThunk(
   async (_, { dispatch }) => {
     try {
       const response = await authApi.authMe()
-      if (response.data.resultCode === 1) {
-        dispatch(setSharedError(response.data.messages[0]))
-        dispatch(showSharedError())
-      }
       return response.data
     } catch (error) {
       dispatch(setLoading(false))
@@ -28,6 +24,7 @@ export const authLogin = createAsyncThunk(
         dispatch(setSharedError(response.data.messages[0]))
         dispatch(showSharedError())
       }
+
       return response.data
     } catch (error) {
       dispatch(setLoading(false))
@@ -64,6 +61,7 @@ const initialState = {
   },
   initialized: false,
   loading: false,
+  isShowLoginModal: false,
   inputEmail: '',
   inputPassword: '',
 }
@@ -74,6 +72,9 @@ export const authSlice = createSlice({
   reducers: {
     setLoading: (state, action) => {
       state.loading = action.payload
+    },
+    setIsShowLoginModal: (state, action) => {
+      state.isShowLoginModal = action.payload
     },
     setInputEmail: (state, action) => {
       state.inputEmail = action.payload
@@ -100,6 +101,7 @@ export const authSlice = createSlice({
       state.loading = false
       if (action.payload.resultCode === 0) {
         state.data.id = action.payload.data.userId
+        state.isShowLoginModal = false
       }
     },
     [authLogout.pending]: (state) => {
@@ -114,6 +116,11 @@ export const authSlice = createSlice({
   },
 })
 
-export const { setLoading, setInputEmail, setInputPassword } = authSlice.actions
+export const {
+  setLoading,
+  setInputEmail,
+  setInputPassword,
+  setIsShowLoginModal,
+} = authSlice.actions
 
 export default authSlice.reducer

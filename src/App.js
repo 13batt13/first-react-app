@@ -10,12 +10,14 @@ import Menu from 'src/sections/sectionNavigation'
 import ErrorAlert from 'src/components/ErrorAlert'
 import spinner from 'src/assets/Spinner.gif'
 import { primaryGrey } from 'src/theme/colors'
+import Login from './components/LoginModal'
 
 const App = () => {
-  const { isShowSharedError, isInitialized } = useSelector(
+  const { isShowSharedError, isInitialized, isShowLoginModal } = useSelector(
     ({ shared, auth }) => ({
       isShowSharedError: shared.isShowSharedError,
       isInitialized: auth.initialized,
+      isShowLoginModal: auth.isShowLoginModal,
     }),
   )
 
@@ -36,6 +38,7 @@ const App = () => {
       <Switch>
         <AppWrapper>
           {isShowSharedError && <ErrorAlert />}
+          {isShowLoginModal && <Login />}
           <Menu />
           <MainContainer>
             <Header />
