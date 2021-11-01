@@ -34,4 +34,10 @@ export const usersApi = {
       .get(`users?page=${page}&count=${count}`)
       .then((response) => response)
   },
+  followUser(id) {
+    return instance.post(`follow/${id}`).then((response) => response)
+  },
+  unfollowUser(id) {
+    return instance.delete(`follow/${id}`).then((response) => response)
+  },
 }

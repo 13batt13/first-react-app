@@ -35,7 +35,7 @@ const Users = () => {
         <UserName>{user.name}</UserName>
         <FollowBtn
           onClick={() => {
-            dispatch(followUser(user.id))
+            dispatch(followUser({ id: user.id, followed: user.followed }))
           }}
         >
           {user.followed ? i18n.unfollow : i18n.follow}
