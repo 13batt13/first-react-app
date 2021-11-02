@@ -1,28 +1,27 @@
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  authLogin,
-  setInputEmail,
-  setInputPassword,
-  setIsShowLoginModal,
-} from 'src/features/auth/authSlice'
+import { useForm, Controller } from 'react-hook-form'
+import { authLogin, setIsShowLoginModal } from 'src/features/auth/authSlice'
 
 import CloseIcon from 'src/assets/icons/CloseIcon'
 import { primaryLightGrey, primaryGrey } from 'src/theme/colors'
 
 const Login = () => {
-  const { email, password, loading } = useSelector(({ auth }) => ({
-    email: auth.inputEmail,
-    password: auth.inputPassword,
-    loading: auth.loading,
-  }))
-  const handleAuth = () => {
+  const loading = useSelector(({ auth }) => auth.loading)
+  const dispatch = useDispatch()
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+  const onSubmit = ({ email, password }) =>
     dispatch(authLogin({ email, password }))
-  }
+
   const handleClose = () => {
     dispatch(setIsShowLoginModal(false))
   }
-  const dispatch = useDispatch()
+
   return (
     <Root onClick={handleClose}>
       <LoginContainer
@@ -33,27 +32,55 @@ const Login = () => {
         <CloseBtn onClick={handleClose}>
           <CloseIcon />
         </CloseBtn>
-        <InputContainer>
-          <TextInput
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={({ currentTarget }) => {
-              dispatch(setInputEmail(currentTarget.value))
-            }}
-          />
-          <TextInput
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={({ currentTarget }) => {
-              dispatch(setInputPassword(currentTarget.value))
-            }}
-          />
+        <InputContainer onSubmit={handleSubmit(onSubmit)}>
+          <FieldWrapper>
+            <Controller
+              name="email"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: 'Required',
+                pattern: {
+                  value: /\S+@\S+\.\S+/,
+                  message: 'Not a valid email format',
+                },
+              }}
+              render={({ field }) => (
+                <TextInput
+                  type="text"
+                  placeholder="Email"
+                  hasError={!!errors?.email?.message}
+                  {...field}
+                />
+              )}
+            />
+            {errors?.email?.message && <Error>{errors?.email?.message}</Error>}
+          </FieldWrapper>
+          <FieldWrapper>
+            <Controller
+              name="password"
+              control={control}
+              defaultValue=""
+              rules={{
+                required: 'Required',
+              }}
+              render={({ field }) => (
+                <TextInput
+                  type="password"
+                  placeholder="Password"
+                  hasError={!!errors?.password?.message}
+                  {...field}
+                />
+              )}
+            />
+            {errors?.password?.message && (
+              <Error>{errors?.password?.message}</Error>
+            )}
+          </FieldWrapper>
+          <LoginButton type="submit" disabled={loading}>
+            Login
+          </LoginButton>
         </InputContainer>
-        <LoginButton disabled={loading} onClick={handleAuth}>
-          Login
-        </LoginButton>
       </LoginContainer>
     </Root>
   )
@@ -89,12 +116,11 @@ const CloseBtn = styled.div`
     opacity: 0.7;
   }
 `
-const InputContainer = styled.div`
+const InputContainer = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-bottom: 30px;
 `
 const TextInput = styled.input`
   width: 300px;
@@ -102,9 +128,7 @@ const TextInput = styled.input`
   border-radius: 10px;
   padding-left: 10px;
   border: 1px solid gray;
-  :not(:last-child) {
-    margin-bottom: 30px;
-  }
+  border-color: ${({ hasError }) => (hasError ? 'red' : 'gray')};
   background-color: ${primaryLightGrey};
 `
 
@@ -115,6 +139,16 @@ const LoginButton = styled.button`
   border: 1px solid gray;
 
   background-color: ${primaryLightGrey};
+`
+const FieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 70px;
+`
+const Error = styled.span`
+  padding-left: 10px;
+  padding-top: 3px;
+  color: red;
 `
 
 export default Login
